@@ -16,7 +16,6 @@ export default function Navbar() {
         /></Link>
       <div className="space-x-6">
         <Link href="/dashboard">Dashboard</Link>
-        <Link href="/builder">Itinerary</Link>
         <Link href="/about">About</Link>
         <Link href="/login">Log In</Link>
       </div>

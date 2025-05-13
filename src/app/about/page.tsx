@@ -73,7 +73,7 @@ export default function AboutPage() {
                 <p className="mb-3 text-gray-700 dark:text-gray-400">{feature.desc}</p>
                 {feature.cta && (
                   <Link
-                    href={feature.cta}
+                    href="/dashboard"
                     className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                   >
                     Go to Tours

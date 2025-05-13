@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import { Inter, Roboto_Mono } from 'next/font/google';
+import Providers from '@/components/Providers';
 
 const inter = Inter({
   variable: '--font-sans',
@@ -13,7 +14,6 @@ const robotoMono = Roboto_Mono({
   subsets: ['latin'],
 });
 
-
 export const metadata: Metadata = {
   title: 'TravelMate',
   description: 'Collaborative travel planning made easy.',
@@ -24,16 +24,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
-        <Navbar />
-        <main className="pt-20">{children}</main>
+    <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
+      <body>
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

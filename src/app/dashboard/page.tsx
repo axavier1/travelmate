@@ -11,16 +11,22 @@ export default function DashboardPage() {
 
   const router = useRouter();
 
+  const [forecast, setForecast] = useState<Record<string, { temp: number; icon: string }> | null>(null);
+
   const fetchWeather = async (loc: string) => {
     setLoading(true);
     try {
-      // Replace this with your actual API route later
       const res = await fetch(`/api/weather?location=${encodeURIComponent(loc)}`);
       const data = await res.json();
+  
       if (data.error) throw new Error(data.error);
-      setWeather(`${data.temp}°F, ${data.description}`);
+  
+      setForecast(data.forecast);
+  
+      setWeather(`${(Object.values(data.forecast)[0] as { temp: number })?.temp}°F`);
     } catch (err) {
-      setWeather("Could not fetch weather.");
+      setForecast(null);
+      setWeather(null);
     } finally {
       setLoading(false);
     }
@@ -77,15 +83,26 @@ export default function DashboardPage() {
             />
             <button
               onClick={() => fetchWeather(location)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="bg-travelmategreen text-white px-4 py-2 rounded hover:bg-green-700"
               disabled={loading || !location}
             >
               {loading ? "Loading..." : "Get Weather"}
             </button>
 
-            {weather && (
-              <div className="mt-4 text-sm text-gray-700">
-                <strong>Weather:</strong> {weather}
+            {forecast && (
+              <div className="mt-4 space-y-2 text-sm text-gray-700">
+                <strong>5-Day Forecast:</strong>
+                {Object.entries(forecast).map(([date, info]) => (
+                  <div key={date} className="flex items-center gap-2">
+                    <span>{date}:</span>
+                    <img
+                      src={`https://openweathermap.org/img/wn/${info.icon}@2x.png`}
+                      alt="weather icon"
+                      className="w-8 h-8"
+                    />
+                    <span>{info.temp}°F</span>
+                  </div>
+                ))}
               </div>
             )}
 
